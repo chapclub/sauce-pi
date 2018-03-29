@@ -4,7 +4,7 @@ import Scale from './Scale'
 export class Pump {
   /**
    * @constructor
-   * @param pumpPins Ordered array of the pump pins
+   * @param pumpPins Ordered array of the pump pins (broadcom ports)
    * @param scalePins Object with props 'clock' and 'data'
    */
   constructor (pumpPins, scalePins) {
