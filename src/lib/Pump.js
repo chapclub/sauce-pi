@@ -23,17 +23,20 @@ export class Pump {
    * @argument pump 0-indexed number of the pump
    */
   pour (pump, quantity) {
-    let currVolume = 0
-    this.pumps[pump].write(1, err => {
-      throw new Error(err)
-    })
-    while (currVolume < quantity) {
-      setTimeout(() => {
+    return new Promise((resolve, reject) => {
+      let currVolume = 0
+      this.pumps[pump].write(1, err => {
+        reject(err)
+      })
+
+      while (currVolume < quantity) {
         currVolume = this.scale.measure()
-      }, 250)
-    }
-    this.pumps[pump].write(0, err => {
-      throw new Error(err)
+      }
+
+      this.pumps[pump].write(0, err => {
+        reject(err)
+      })
+      resolve()
     })
   }
 

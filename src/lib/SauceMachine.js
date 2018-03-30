@@ -93,6 +93,18 @@ export class SauceMachine {
     this.sendStatus()
   }
 
+  iterPumps (pumps) {
+    return pumps.reduce((pump, p) => {
+      p.then(() => {
+        return this.pump.pour(pump.id, pump.volume)
+      }).then(() => {
+        this.status.currentPump = pump.id
+        this.http.status = this.status
+        this.socket.sendStatus(this.status)
+      })
+    }, new Promise())
+  }
+
   makeDrink (drink) {
     this.mutex.acquire()
       .then(release => {
@@ -106,17 +118,8 @@ export class SauceMachine {
         this.socket.sendStatus(this.status)
 
         // TODO: check switch
-        drink.pumps.forEach(pump => {
-          setTimeout(() => {
-            this.pump.pour(pump.id, pump.volume)
-            this.status.currentPump = pump.id
-            this.http.status = this.status
-            this.socket.sendStatus(this.status)
-          }, 1000)
-        })
-
-        release()
-
+        return this.iterPumps(drink.pumps).then(() => release())
+      }).then(() => {
         this.status = {
           busy: false,
           drink: undefined,
