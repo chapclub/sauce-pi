@@ -3,7 +3,7 @@ const pinout = {
     10, // Broadcom
     9, // Broadcom
     11, // Broadcom
-    5 // Broadcom
+    13 // Broadcom
   ],
   scalePins: {
     clock: 7, // Wiring Pi
