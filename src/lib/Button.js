@@ -1,6 +1,7 @@
 import EventEmitter from 'events'
 import { Gpio } from 'onoff'
 import { pinout } from '../../config/pinout'
+import { debounce } from 'lodash'
 
 export class Button extends EventEmitter {
   constructor () {
@@ -9,14 +10,19 @@ export class Button extends EventEmitter {
     this.switch = new Gpio(switchPin, 'in', 'both')
     this.button = new Gpio(buttonPin, 'in', 'falling')
 
-    this.button.watch((err, value) => {
+    this.button.watch(debounce((err, value) => {
       if (err) throw err
-      this.emit('button', 'some data')
-    })
+      this.emit('button', {})
+    }, 500))
 
-    this.switch.watch((err, value) => {
+    this.switch.watch(debounce((err, value) => {
       if (err) throw err
-      this.emit('switch', 'some more data')
-    })
+      const mode = value ? 'cocktail' : 'shots'
+      this.emit('switch', { mode: mode })
+    }, 500))
+  }
+
+  readSwitch () {
+    return this.switch.readSync() ? 'cocktail' : 'shots'
   }
 }

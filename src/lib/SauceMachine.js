@@ -2,6 +2,7 @@ import { Pump } from './Pump'
 import { Socket } from './Socket'
 import { Mutex } from 'async-mutex'
 import { Http } from './Http'
+import { Button } from './Button'
 
 export class SauceMachine {
   constructor () {
@@ -74,15 +75,29 @@ export class SauceMachine {
     this.http.on('set-drink', data => {
       this._setDrink(data)
     })
+
+    const button = new Button()
+
+    this.mode = button.readSwitch()
+
+    this.button.on('button', data => {
+      this._defaultDrink()
+    })
+
+    this.button.on('switch', data => {
+      this.mode = data
+    })
   }
 
   _madeDrink (drink) {
     if (this.mutex.isLocked()) throw new Error('Already making a drink')
+    if (drink.type !== this.mode) throw new Error('Switch in wrong position')
     this.makeDrink(drink)
   }
 
   _defaultDrink () {
     if (this.mutex.isLocked()) throw new Error('Already making a drink')
+    if (this.defaultDrink.type !== this.mode) throw new Error('Switch in wrong position')
     const drink = JSON.parse(JSON.stringify(this.defaultDrink))
     this.makeDrink(drink)
   }
