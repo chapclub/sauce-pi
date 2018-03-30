@@ -16,8 +16,8 @@ export class Scale {
   }
 
   measure () {
-    // return this.scale.getUnits() + this.scale.getOffset()
-    return this.scale.getUnits() + this._initOffset
+    return this.scale.getUnits() + this.scale.getOffset()
+    // return this.scale.getUnits() + this._initOffset
   }
 
   tare () {
