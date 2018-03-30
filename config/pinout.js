@@ -1,9 +1,9 @@
 const pinout = {
   pumpPins: [
-    5, // Broadcom
-    6, // Broadcom
-    13, // Broadcom
-    19 // Broadcom
+    10, // Broadcom
+    9, // Broadcom
+    11, // Broadcom
+    5 // Broadcom
   ],
   scalePins: {
     clock: 7, // Wiring Pi
