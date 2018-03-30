@@ -25,4 +25,12 @@ export class Socket extends EventEmitter {
   makeDrinkResponse (status) {
     this.socket.emit('make-drink.response', status)
   }
+
+  lastOperationResponse (operation) {
+    // return last operation
+  }
+
+  setDrinkResponse () {
+    // same as makeDrinkResponse but for set-drink
+  }
 }

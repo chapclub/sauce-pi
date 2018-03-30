@@ -18,6 +18,6 @@ export class Scale {
   }
 
   tare () {
-    return this.scale.tare()
+    this.scale.tare()
   }
 }

@@ -9,6 +9,7 @@ export class Pump {
    */
   constructor (pumpPins, scalePins) {
     this.scale = new Scale(scalePins)
+    this.scale.tare()
     this.pumps = []
     pumpPins.forEach(elem => {
       this.pumps.push(new Gpio(pumpPins[elem], 'out'))
