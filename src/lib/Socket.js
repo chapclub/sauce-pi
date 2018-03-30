@@ -13,24 +13,16 @@ export class Socket extends EventEmitter {
       if (!data.name || !data.type || !data.pumps) {
         this.emit('default-drink', {})
       } else {
-        this.emit('make-drink', data)
+        this.emit('make-drink', JSON.parse(data))
       }
     })
 
     this.socket.on('set-drink', data => {
-      this.emit('set-drink', data)
+      this.emit('set-drink', JSON.parse(data))
     })
   }
 
-  makeDrinkResponse (status) {
-    this.socket.emit('make-drink.response', status)
-  }
-
-  lastOperationResponse (operation) {
-    // return last operation
-  }
-
-  setDrinkResponse () {
-    // same as makeDrinkResponse but for set-drink
+  sendStatus (status) {
+    this.socket.emit(status)
   }
 }
