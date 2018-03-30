@@ -1,16 +1,13 @@
 import { Gpio } from 'onoff'
 import Scale from './Scale'
+import { pinout } from '../../config/pinout'
 
 export class Pump {
-  /**
-   * @constructor
-   * @param pumpPins Ordered array of the pump pins (broadcom ports)
-   * @param scalePins Object with props 'clock' and 'data'
-   */
-  constructor (pumpPins, scalePins) {
-    this.scale = new Scale(scalePins)
+  constructor () {
+    this.scale = new Scale()
     this.scale.tare()
     this.pumps = []
+    const { pumpPins } = pinout
     pumpPins.forEach(elem => {
       this.pumps.push(new Gpio(pumpPins[elem], 'out'))
     })

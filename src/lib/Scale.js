@@ -2,10 +2,6 @@ import HX711 from 'hx711'
 import { pinout } from '../../config/pinout'
 
 export class Scale {
-  /**
-   * @constructor
-   * @param pins Object with props 'clock' and 'data'
-   */
   constructor () {
     const { clock, data } = pinout.scalePins
     this.scale = new HX711(clock, data)
@@ -18,6 +14,10 @@ export class Scale {
   measure () {
     return this.scale.getUnits() + this.scale.getOffset()
     // return this.scale.getUnits() + this._initOffset
+  }
+
+  raw () {
+    return this.scale.read()
   }
 
   tare () {
