@@ -1,7 +1,8 @@
-import { Scale } from './lib/Scale'
+import { SauceMachine } from './lib/SauceMachine'
 
-const scale = new Scale()
+const sauceMachine = new SauceMachine()
 
-setInterval(() => {
-  console.log(scale.measure())
-}, 1000)
+process.on('SIGINT', () => {
+  sauceMachine.destroy()
+  process.exit()
+})

@@ -10,7 +10,8 @@ export class Scale {
   }
 
   measure () {
-    return this.scale.getUnits()
+    const measurement = this.scale.getUnits()
+    return measurement < 0 ? 0 : Math.ceil(measurement)
   }
 
   raw () {

@@ -3,6 +3,7 @@ import { Socket } from './Socket'
 import { Mutex } from 'async-mutex'
 import { Http } from './Http'
 import { Button } from './Button'
+import { Display } from './Display'
 
 export class SauceMachine {
   constructor () {
@@ -12,6 +13,8 @@ export class SauceMachine {
       currentPump: undefined,
       lastAction: undefined
     }
+
+    this.display = new Display()
 
     this.mutex = new Mutex()
 
@@ -111,6 +114,7 @@ export class SauceMachine {
   iterPumps (pumps) {
     return pumps.reduce((pump, p) => {
       p.then(() => {
+        this.display.displayStatus(pump.name)
         return this.pump.pour(pump.id, pump.volume)
       }).then(() => {
         this.status.currentPump = pump.id
@@ -129,6 +133,7 @@ export class SauceMachine {
           currentPump: undefined,
           lastAction: 'make-drink'
         }
+        this.display.displayDrink(drink.name)
         this.http.status = this.status
         this.socket.sendStatus(this.status)
 
@@ -142,8 +147,16 @@ export class SauceMachine {
           lastAction: 'make-drink'
         }
 
+        this.display.clear()
+
         this.http.status = this.status
         this.socket.sendStatus(this.status)
       })
+  }
+
+  destroy () {
+    this.display.destroy()
+    this.pump.destroy()
+    this.button.destroy()
   }
 }

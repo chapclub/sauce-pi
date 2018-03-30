@@ -25,4 +25,9 @@ export class Button extends EventEmitter {
   readSwitch () {
     return this.switch.readSync() ? 'cocktail' : 'shots'
   }
+
+  destroy () {
+    this.switch.unexport()
+    this.button.unexport()
+  }
 }
