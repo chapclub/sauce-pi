@@ -6,10 +6,9 @@ const pinout = {
     3
   ],
   scalePins: {
-    clock: 4,
-    data: 5
-  },
-  
+    clock: 7, // Wiring Pi
+    data: 6 // Wiring Pi
+  }
 }
 
 export { pinout }

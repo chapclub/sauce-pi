@@ -1,7 +1,7 @@
-import { SauceMachine } from './lib/SauceMachine'
+import { Scale } from './lib/Scale'
 
-try {
-  const sauce = new SauceMachine()
-} catch (err) {
-  console.log(err.message)
-}
+const scale = new Scale()
+
+setInterval(() => {
+  console.log(scale.measure())
+}, 1000)
