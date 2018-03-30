@@ -15,7 +15,34 @@ export class SauceMachine {
     this.mutex = new Mutex()
 
     this.defaultDrink = {
-      // Oscar Sauce
+      name: 'Oscar Sauce',
+      type: 'mixed',
+      pumps: [
+        {
+          id: 0,
+          volume: 45,
+          density: 1,
+          name: 'Fireball'
+        },
+        {
+          id: 1,
+          volume: 45,
+          density: 1,
+          name: 'Orange Juice'
+        },
+        {
+          id: 0,
+          volume: 45,
+          density: 1,
+          name: 'Fireball'
+        },
+        {
+          id: 1,
+          volume: 45,
+          density: 1,
+          name: 'Orange Juice'
+        }
+      ]
     }
 
     this.pump = new Pump([0, 1, 2, 3], { scalePins: { clock: 4, data: 5 } })
@@ -81,7 +108,7 @@ export class SauceMachine {
         // TODO: check switch
         drink.pumps.forEach(pump => {
           setTimeout(() => {
-            this.pump.pour(pump.id, pump.volume * pump.density)
+            this.pump.pour(pump.id, pump.volume)
             this.status.currentPump = pump.id
             this.http.status = this.status
             this.socket.sendStatus(this.status)
