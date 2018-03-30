@@ -24,6 +24,7 @@ export class Pump {
    */
   pour (pump, quantity) {
     return new Promise((resolve, reject) => {
+      this.scale.tare()
       let currVolume = 0
       this.pumps[pump].write(1, err => {
         reject(err)
@@ -32,6 +33,8 @@ export class Pump {
       while (currVolume < quantity) {
         currVolume = this.scale.measure()
       }
+
+      this.scale.tare()
 
       this.pumps[pump].write(0, err => {
         reject(err)

@@ -7,13 +7,10 @@ export class Scale {
     this.scale = new HX711(clock, data)
     this.scale.setScale(-414.89)
     this.scale.tare()
-    // this._initOffset = this.scale.getOffset()
-    this._initOffset = -85345
   }
 
   measure () {
-    return this.scale.getUnits() + this.scale.getOffset()
-    // return this.scale.getUnits() + this._initOffset
+    return this.scale.getUnits()
   }
 
   raw () {

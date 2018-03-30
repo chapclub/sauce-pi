@@ -19,5 +19,4 @@ export class Button extends EventEmitter {
       this.emit('switch', 'some more data')
     })
   }
-
 }
