@@ -1,5 +1,6 @@
 import { Pump } from './Pump'
 import { Socket } from './Socket'
+import { Mutex } from 'async-mutex'
 
 export class SauceMachine {
   constructor () {
@@ -11,6 +12,8 @@ export class SauceMachine {
       currentPump: undefined
     }
 
+    this.mutex = new Mutex()
+
     this.defaultDrink = {
       // Oscar Sauce
     }
@@ -19,11 +22,13 @@ export class SauceMachine {
     this.socket = new Socket()
 
     this.socket.on('make-drink', data => {
+      if (this.mutex.isLocked()) throw new Error('Already making a drink')
       this.makeDrink(data)
     })
 
     this.socket.on('default-drink', data => {
-      const drink = this.defaultDrink
+      if (this.mutex.isLocked()) throw new Error('Already making a drink')
+      const drink = JSON.parse(JSON.stringify(this.defaultDrink))
       this.makeDrink(drink)
     })
 
@@ -33,26 +38,32 @@ export class SauceMachine {
   }
 
   makeDrink (drink) {
-    this.status = {
-      busy: true,
-      drink: drink,
-      currentPump: undefined
-    }
-    this.socket.makeDrinkResponse(this.status)
+    this.mutex.acquire()
+      .then(release => {
+        this.status = {
+          busy: true,
+          drink: drink,
+          currentPump: undefined
+        }
 
-    // TODO: check switch
-    drink.pumps.forEach(pump => {
-      setTimeout(() => {
-        this.pump.pour(pump.id, pump.volume * pump.density)
-        this.status.currentPump = pump.id
         this.socket.makeDrinkResponse(this.status)
-      }, 1000)
-    })
 
-    this.status = {
-      busy: false,
-      drink: undefined,
-      currentPump: undefined
-    }
+        // TODO: check switch
+        drink.pumps.forEach(pump => {
+          setTimeout(() => {
+            this.pump.pour(pump.id, pump.volume * pump.density)
+            this.status.currentPump = pump.id
+            this.socket.makeDrinkResponse(this.status)
+          }, 1000)
+        })
+
+        release()
+
+        this.status = {
+          busy: false,
+          drink: undefined,
+          currentPump: undefined
+        }
+      })
   }
 }
