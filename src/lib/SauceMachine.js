@@ -79,7 +79,7 @@ export class SauceMachine {
       this._setDrink(data)
     })
 
-    const button = new Button()
+    this.button = new Button()
 
     this.mode = button.readSwitch()
 
