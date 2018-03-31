@@ -11,11 +11,11 @@ export class Pump {
     pumpPins.forEach(elem => {
       this.pumps.push(new Gpio(pumpPins[elem], 'out'))
     })
-    this.pumps.forEach(pump => {
-      pump.write(0, err => {
-        if (err) throw new Error(err)
-      })
-    })
+    // this.pumps.forEach(pump => {
+    //   pump.write(0, err => {
+    //     if (err) throw new Error(err)
+    //   })
+    // })
   }
 
   /**
