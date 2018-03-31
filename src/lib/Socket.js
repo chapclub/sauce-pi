@@ -10,7 +10,9 @@ export class Socket extends EventEmitter {
     })
 
     this.socket.on('make-drink', data => {
-      if (!data.name || !data.type || !data.pumps) {
+      console.log('make drink pls: ' + data)
+      const { name, type, pumps } = data.drink
+      if (!name || !type || !pumps) {
         this.emit('default-drink', {})
       } else {
         this.emit('make-drink', JSON.parse(data))
