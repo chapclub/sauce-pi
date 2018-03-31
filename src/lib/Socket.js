@@ -4,7 +4,7 @@ import EventEmitter from 'events'
 export class Socket extends EventEmitter {
   constructor () {
     super()
-    this.socket = new io('http://10.8.107.114:6969')
+    this.socket = new io('http://sauce.delvaze.xyz:6970')
     this.socket.on('connect', () => {
       this.socket.emit('message', 'hello world')
     })
