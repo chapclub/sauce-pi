@@ -1,4 +1,4 @@
-const pinout = {
+export const pinout = {
   pumpPins: [
     10, // Broadcom
     9, // Broadcom
@@ -24,5 +24,3 @@ const pinout = {
     rows: 2
   }
 }
-
-export { pinout }
