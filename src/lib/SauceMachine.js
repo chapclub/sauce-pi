@@ -81,7 +81,7 @@ export class SauceMachine {
 
     this.button = new Button()
 
-    this.mode = button.readSwitch()
+    this.mode = this.button.readSwitch()
 
     this.button.on('button', data => {
       this._defaultDrink()
