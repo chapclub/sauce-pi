@@ -1,5 +1,5 @@
 import { Gpio } from 'onoff'
-import Scale from './Scale'
+import { Scale } from './Scale'
 import { pinout } from '../../config/pinout'
 
 export class Pump {
