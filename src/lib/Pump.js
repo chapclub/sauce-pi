@@ -13,7 +13,7 @@ export class Pump {
     })
     this.pumps.forEach(pump => {
       pump.write(0, err => {
-        throw new Error(err)
+        if (err) throw new Error(err)
       })
     })
   }
